@@ -35,7 +35,7 @@ function makes a go call to *Widget.Process* and *Widget.Consume*.
 
 # Installation
 
-> $ go get https://github.con/umahmood/gocalls
+> $ go get github.com/umahmood/gocalls
 
 # Usage
 
