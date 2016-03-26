@@ -48,8 +48,8 @@ func recvString(recv ast.Expr) string {
 	return "BADRECV"
 }
 
-// containsGoStatemnt determines if a list of ast.Stmt's contains 'go' statements
-func containsGoStatemnt(n []ast.Stmt) ([]funcCall, bool) {
+// containsGoStatement determines if a list of ast.Stmt's contains 'go' statements
+func containsGoStatement(n []ast.Stmt) ([]funcCall, bool) {
 	extractFuncName := func(g *ast.GoStmt) string {
 		var fn string
 		switch g := g.Call.Fun.(type) {
@@ -150,7 +150,7 @@ func (c *compositeVisitor) Visit(n ast.Node) ast.Visitor {
 func (fc *funcCall) Visit(n ast.Node) ast.Visitor {
 	switch n := n.(type) {
 	case *ast.FuncDecl:
-		if t, ok := containsGoStatemnt(n.Body.List); ok {
+		if t, ok := containsGoStatement(n.Body.List); ok {
 			for _, loc := range t {
 				funcCalls = append(funcCalls, funcCall{
 					From: funcName(n),
@@ -159,7 +159,7 @@ func (fc *funcCall) Visit(n ast.Node) ast.Visitor {
 			}
 		}
 	case *ast.FuncLit:
-		if t, ok := containsGoStatemnt(n.Body.List); ok {
+		if t, ok := containsGoStatement(n.Body.List); ok {
 			for _, loc := range t {
 				funcCalls = append(funcCalls, funcCall{
 					From: formatAnonName(n),
